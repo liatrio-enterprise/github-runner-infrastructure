@@ -87,7 +87,8 @@ resource "kubernetes_manifest" "runner_deployment" {
       replicas = "3"
       template = {
         spec = {
-          organization = "liatrio-cloud"
+          organization  = "liatrio-cloud"
+          dockerEnabled = false
         }
       }
     }
