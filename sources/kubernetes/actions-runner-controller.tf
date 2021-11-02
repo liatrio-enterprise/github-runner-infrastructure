@@ -63,12 +63,12 @@ resource "helm_release" "actions_runner_controller" {
   }
 }
 
-resource "kubernetes_manifest" "runner_deployment" {
+resource "kubernetes_manifest" "runner_nodejs_12" {
   manifest = {
     apiVersion = "actions.summerwind.dev/v1alpha1"
     kind       = "RunnerDeployment"
     metadata = {
-      name      = "liatrio-cloud"
+      name      = "liatrio-cloud-nodejs-12"
       namespace = helm_release.actions_runner_controller.namespace
     }
     spec = {
@@ -77,25 +77,29 @@ resource "kubernetes_manifest" "runner_deployment" {
           organization  = "liatrio-cloud"
           dockerEnabled = false
           ephemeral     = true
+          labels        = [
+            "nodejs-12"
+          ]
+          image = "ghcr.io/liatrio-cloud/runner-images/nodejs-12:v1.1.1"
         }
       }
     }
   }
 }
 
-resource "kubernetes_manifest" "runner_autoscaler" {
+resource "kubernetes_manifest" "runner_autoscaler_nodejs_12" {
   manifest = {
     apiVersion = "actions.summerwind.dev/v1alpha1"
     kind       = "HorizontalRunnerAutoscaler"
     metadata = {
-      name      = "liatrio-cloud-autoscaler"
+      name      = "liatrio-cloud-autoscaler-nodejs-12"
       namespace = helm_release.actions_runner_controller.namespace
     }
     spec = {
       minReplicas = 1
       maxReplicas = 5
       scaleTargetRef = {
-        name = kubernetes_manifest.runner_deployment.manifest.metadata.name
+        name = kubernetes_manifest.runner_nodejs_12.manifest.metadata.name
       }
       scaleUpTriggers = [
         {
