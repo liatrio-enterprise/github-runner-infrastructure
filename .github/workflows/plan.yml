@@ -24,6 +24,9 @@ jobs:
         with:
           terragrunt_version: v0.31.4
 
+      - name: Terraform check format
+        run: terraform fmt --recursive --check --diff
+
       - name: Terragrunt plan
         run: terragrunt plan
         working-directory: ./live/sandbox/azure
