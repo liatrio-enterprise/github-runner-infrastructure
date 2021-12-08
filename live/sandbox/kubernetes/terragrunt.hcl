@@ -37,25 +37,25 @@ generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
-provider "azurerm" {
-  tenant_id       = "${local.common.default_directory_tenant_id}"
-  subscription_id = "${local.common.sandbox_subscription_id}"
+    provider "azurerm" {
+      tenant_id       = "${local.common.default_directory_tenant_id}"
+      subscription_id = "${local.common.sandbox_subscription_id}"
 
-  features {}
-}
+      features {}
+    }
 
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-    config_context = "${dependency.azure.outputs.aks_cluster_name}-admin"
-  }
-}
+    provider "helm" {
+      kubernetes {
+        config_path = "~/.kube/config"
+        config_context = "${dependency.azure.outputs.aks_cluster_name}-admin"
+      }
+    }
 
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-  config_context = "${dependency.azure.outputs.aks_cluster_name}-admin"
-}
-EOF
+    provider "kubernetes" {
+      config_path = "~/.kube/config"
+      config_context = "${dependency.azure.outputs.aks_cluster_name}-admin"
+    }
+    EOF
 }
 
 terraform {
