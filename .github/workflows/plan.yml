@@ -28,7 +28,7 @@ jobs:
         run: terragrunt plan
         working-directory: ./live/sandbox/azure
         env:
-          ARM_ACCESS_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+          ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
           TF_VAR_ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           TF_VAR_ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           TF_VAR_ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
