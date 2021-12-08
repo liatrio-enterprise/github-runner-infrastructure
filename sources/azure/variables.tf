@@ -27,6 +27,6 @@ variable "arm_client_id" {
 }
 
 variable "arm_client_secret" {
-  type = string
+  type      = string
   sensitive = true
 }
