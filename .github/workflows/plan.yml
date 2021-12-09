@@ -27,8 +27,8 @@ jobs:
       - name: Terraform check format
         run: terraform fmt --recursive --check --diff
 
-      - name: Terragrunt plan
-        run: terragrunt plan
+      - name: Terragrunt plan all
+        run: terragrunt run-all plan
         working-directory: ./live/sandbox/azure
         env:
           ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
