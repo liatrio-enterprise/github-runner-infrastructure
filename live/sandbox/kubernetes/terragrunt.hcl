@@ -38,6 +38,21 @@ dependency "azure" {
 }
 
 terraform {
+  before_hook "az_login" {
+    commands = [
+      "apply",
+      "plan",
+      "destroy"
+    ]
+
+    execute = [
+      "az", "login", "--service-principal",
+      "--username", get_env("TF_VAR_arm_client_id"),
+      "--password", get_env("TF_VAR_arm_client_secret"),
+      "--tenant", "${local.common.default_directory_tenant_id}"
+    ]
+  }
+
   before_hook "cluster_auth" {
     commands = [
       "apply",
