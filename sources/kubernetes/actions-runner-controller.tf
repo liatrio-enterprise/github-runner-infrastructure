@@ -16,7 +16,7 @@ locals {
     },
     {
       name  = "terraform-1.0"
-      image = "ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.1"
+      image = "ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2"
       labels = [
         "terraform-1.0"
       ]
