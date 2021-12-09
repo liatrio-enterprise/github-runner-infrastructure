@@ -16,13 +16,14 @@ inputs = {
   dns_zone_name                                     = dependency.azure.outputs.dns_zone_name
   dns_zone_resource_group                           = dependency.azure.outputs.resource_group
   cert_manager_service_principal_secret_secret_name = dependency.azure.outputs.cert_manager_service_principal_secret_secret_name
-  tenant_id                                         = local.common.default_directory_tenant_id
-  subscription_id                                   = local.common.sandbox_subscription_id
+  tenant_id                                         = get_env("TF_VAR_arm_tenant_id")
+  subscription_id                                   = get_env("TF_VAR_arm_subscription_id")
   cluster_name                                      = dependency.azure.outputs.aks_cluster_name
 }
 
 dependency "azure" {
-  config_path                             = "../azure"
+  config_path = "../azure"
+
   mock_outputs_allowed_terraform_commands = [
     "init",
     "validate",
