@@ -16,46 +16,26 @@ inputs = {
   dns_zone_name                                     = dependency.azure.outputs.dns_zone_name
   dns_zone_resource_group                           = dependency.azure.outputs.resource_group
   cert_manager_service_principal_secret_secret_name = dependency.azure.outputs.cert_manager_service_principal_secret_secret_name
+  tenant_id                                         = local.common.default_directory_tenant_id
+  subscription_id                                   = local.common.sandbox_subscription_id
+  dns_subscription_id                               = local.common.pay_as_you_go_subscription_id
+  cluster_name                                      = dependency.azure.outputs.aks_cluster_name
 }
 
 dependency "azure" {
-  config_path = "../azure"
+  config_path                             = "../azure"
   mock_outputs_allowed_terraform_commands = [
     "init",
     "validate",
     "plan",
   ]
+
   mock_outputs = {
     resource_group   = "mock-resource-group"
     aks_cluster_name = "mock-aks-cluster-name"
     key_vault_id     = "mock-key-vault-id"
     key_vault_name   = "mock-key-vault-name"
   }
-}
-
-generate "provider" {
-  path      = "provider.tf"
-  if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-    provider "azurerm" {
-      tenant_id       = "${local.common.default_directory_tenant_id}"
-      subscription_id = "${local.common.sandbox_subscription_id}"
-
-      features {}
-    }
-
-    provider "helm" {
-      kubernetes {
-        config_path = "~/.kube/config"
-        config_context = "${dependency.azure.outputs.aks_cluster_name}-admin"
-      }
-    }
-
-    provider "kubernetes" {
-      config_path = "~/.kube/config"
-      config_context = "${dependency.azure.outputs.aks_cluster_name}-admin"
-    }
-    EOF
 }
 
 terraform {
@@ -65,6 +45,7 @@ terraform {
       "plan",
       "destroy"
     ]
+
     execute = [
       "az", "aks", "get-credentials",
       "--resource-group", "${dependency.azure.outputs.resource_group}",
