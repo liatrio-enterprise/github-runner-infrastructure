@@ -16,8 +16,8 @@ remote_state {
     storage_account_name = "githubworkshop"
     container_name       = "tfstate"
     key                  = "aks-runners/${path_relative_to_include()}/terraform.tfstate"
-    tenant_id            = local.common.default_directory_tenant_id
-    subscription_id      = local.common.sandbox_subscription_id
+    tenant_id            = get_env("TF_VAR_arm_tenant_id")      
+    subscription_id      = get_env("TF_VAR_arm_subscription_id")
   }
 }
 
