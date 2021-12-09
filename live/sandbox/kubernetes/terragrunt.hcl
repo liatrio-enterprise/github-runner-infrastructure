@@ -3,7 +3,9 @@ include {
 }
 
 locals {
-  common = yamldecode(file(find_in_parent_folders("common-vars.yaml")))
+  common          = yamldecode(file(find_in_parent_folders("common-vars.yaml")))
+  tenant_id       = get_env("TF_VAR_arm_tenant_id")
+  subscription_id = get_env("TF_VAR_arm_subscription_id")
 }
 
 inputs = {
@@ -16,8 +18,8 @@ inputs = {
   dns_zone_name                                     = dependency.azure.outputs.dns_zone_name
   dns_zone_resource_group                           = dependency.azure.outputs.resource_group
   cert_manager_service_principal_secret_secret_name = dependency.azure.outputs.cert_manager_service_principal_secret_secret_name
-  tenant_id                                         = get_env("TF_VAR_arm_tenant_id")
-  subscription_id                                   = get_env("TF_VAR_arm_subscription_id")
+  tenant_id                                         = local.tenant_id
+  subscription_id                                   = local.subscription_id
   cluster_name                                      = dependency.azure.outputs.aks_cluster_name
 }
 
@@ -50,7 +52,7 @@ terraform {
       "az", "login", "--service-principal",
       "--username", get_env("TF_VAR_arm_client_id"),
       "--password", get_env("TF_VAR_arm_client_secret"),
-      "--tenant", "${local.common.default_directory_tenant_id}"
+      "--tenant", "${local.tenant_id}"
     ]
   }
 
@@ -65,7 +67,7 @@ terraform {
       "az", "aks", "get-credentials",
       "--resource-group", "${dependency.azure.outputs.resource_group}",
       "--name", "${dependency.azure.outputs.aks_cluster_name}",
-      "--subscription", "${local.common.sandbox_subscription_id}",
+      "--subscription", "${local.subscription_id}",
       "--overwrite-existing",
       "--admin",
       "--verbose"
