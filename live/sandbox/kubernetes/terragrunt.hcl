@@ -18,7 +18,6 @@ inputs = {
   cert_manager_service_principal_secret_secret_name = dependency.azure.outputs.cert_manager_service_principal_secret_secret_name
   tenant_id                                         = local.common.default_directory_tenant_id
   subscription_id                                   = local.common.sandbox_subscription_id
-  dns_subscription_id                               = local.common.pay_as_you_go_subscription_id
   cluster_name                                      = dependency.azure.outputs.aks_cluster_name
 }
 
