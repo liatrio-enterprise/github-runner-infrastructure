@@ -2,12 +2,12 @@ name: Terragrunt Apply
 
 on:
   push:
-    branches: [ main, dns_zone_refactor ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   call-apply-workflow:
-      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-apply-azure.yml@terragrunt_apply_pipeline
+      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-apply-azure.yml@main
       with:
         workingDirectory: ./live/sandbox
       secrets:
