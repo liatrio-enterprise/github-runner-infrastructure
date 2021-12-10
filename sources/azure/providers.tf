@@ -1,5 +1,5 @@
 provider "azuread" {
-  tenant_id     = var.arm_tenant_id
+  tenant_id = var.arm_tenant_id
 }
 
 provider "azurerm" {
