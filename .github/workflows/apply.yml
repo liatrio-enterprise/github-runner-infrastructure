@@ -2,7 +2,7 @@ name: Terragrunt Plan
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dns_zone_refactor ]
 
 jobs:
   call-plan-workflow:
