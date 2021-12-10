@@ -1,10 +1,10 @@
-name: DEV Plan
+name: Terragrunt Plan
 
 on:
   push:
-    branches: [ reusable-plan, main, dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ reusable-plan, dev, main ]
+    branches: [ main ]
 
 jobs:
   call-plan-workflow:
