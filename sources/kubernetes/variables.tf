@@ -38,11 +38,11 @@ variable "cluster_name" {
   type = string
 }
 
-variable "tenant_id" {
+variable "arm_tenant_id" {
   type = string
 }
 
-variable "subscription_id" {
+variable "arm_subscription_id" {
   type = string
 }
 

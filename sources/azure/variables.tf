@@ -10,11 +10,11 @@ variable "default_node_pool_subnet_address_space" {
   type = list(string)
 }
 
-variable "tenant_id" {
+variable "arm_tenant_id" {
   type = string
 }
 
-variable "subscription_id" {
+variable "arm_subscription_id" {
   type = string
 }
 
