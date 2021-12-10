@@ -8,7 +8,7 @@ on:
 
 jobs:
   call-plan-workflow:
-      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan-azure.yml@terragrunt-plan
+      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan-azure.yml@main
       with:
         workingDirectory: ./live/sandbox
       secrets:
