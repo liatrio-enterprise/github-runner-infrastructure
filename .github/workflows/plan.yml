@@ -10,7 +10,7 @@ jobs:
   call-plan-workflow:
       uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan.yml@terragrunt-plan
       with:
-        working-directory: ./live/sandbox
+        workingDirectory: ./live/sandbox
       secrets:
         ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
