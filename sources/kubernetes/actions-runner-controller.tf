@@ -1,22 +1,22 @@
 locals {
   runners = [
     {
-      name   = "nodejs-12"
-      image  = "ghcr.io/liatrio-cloud/runner-images/nodejs-12:v1.1.1"
+      name  = "nodejs-12"
+      image = "ghcr.io/liatrio-cloud/runner-images/nodejs-12:v1.1.1"
       labels = [
         "nodejs-12"
       ]
     },
     {
-      name   = "dotnet-sdk-3.1"
-      image  = "ghcr.io/liatrio-cloud/runner-images/dotnet-sdk-3.1:v1.1.0"
+      name  = "dotnet-sdk-3.1"
+      image = "ghcr.io/liatrio-cloud/runner-images/dotnet-sdk-3.1:v1.1.0"
       labels = [
         "dotnet-sdk-3.1"
       ]
     },
     {
-      name   = "terraform-1.0"
-      image  = "ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.1"
+      name  = "terraform-1.0"
+      image = "ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2"
       labels = [
         "terraform-1.0"
       ]
@@ -90,15 +90,15 @@ resource "helm_release" "actions_runner_controller" {
 }
 
 resource "kubernetes_manifest" "runner_deployments" {
-  for_each = { for r in local.runners: r.name => r }
+  for_each = { for r in local.runners : r.name => r }
   manifest = {
     apiVersion = "actions.summerwind.dev/v1alpha1"
     kind       = "RunnerDeployment"
-    metadata   = {
+    metadata = {
       name      = "liatrio-cloud-${each.value.name}"
       namespace = helm_release.actions_runner_controller.namespace
     }
-    spec       = {
+    spec = {
       template = {
         spec = {
           organization  = "liatrio-cloud"
@@ -113,18 +113,18 @@ resource "kubernetes_manifest" "runner_deployments" {
 }
 
 resource "kubernetes_manifest" "runner_autoscalers" {
-  for_each = { for r in local.runners: r.name => r }
+  for_each = { for r in local.runners : r.name => r }
   manifest = {
     apiVersion = "actions.summerwind.dev/v1alpha1"
     kind       = "HorizontalRunnerAutoscaler"
-    metadata   = {
+    metadata = {
       name      = "liatrio-cloud-autoscaler-${each.value.name}"
       namespace = helm_release.actions_runner_controller.namespace
     }
-    spec       = {
-      minReplicas     = 1
-      maxReplicas     = 5
-      scaleTargetRef  = {
+    spec = {
+      minReplicas = 1
+      maxReplicas = 5
+      scaleTargetRef = {
         name = kubernetes_manifest.runner_deployments[each.key].manifest.metadata.name
       }
       scaleUpTriggers = [
@@ -141,15 +141,15 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
   manifest = {
     apiVersion = "networking.k8s.io/v1"
     kind       = "Ingress"
-    metadata   = {
-      name        = "github-webhook"
-      namespace   = helm_release.actions_runner_controller.namespace
+    metadata = {
+      name      = "github-webhook"
+      namespace = helm_release.actions_runner_controller.namespace
       annotations = {
         "cert-manager.io/cluster-issuer" : kubernetes_manifest.cert_manager_issuer_production.manifest.metadata.name
       }
     }
-    spec       = {
-      rules            = [
+    spec = {
+      rules = [
         {
           host = "github-webhook.liatrio-cloud-ghe.az.liatr.io"
           http = {
@@ -157,7 +157,7 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
               {
                 path     = "/"
                 pathType = "Prefix"
-                backend  = {
+                backend = {
                   service = {
                     name = "actions-runner-controller-github-webhook-server"
                     port = {
@@ -170,9 +170,9 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
           }
         }
       ]
-      tls              = [
+      tls = [
         {
-          hosts      = [
+          hosts = [
             "github-webhook.liatrio-cloud-ghe.az.liatr.io"
           ]
           secretName = "github-webhook-tls"

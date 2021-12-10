@@ -3,6 +3,10 @@ resource "azurerm_dns_zone" "liatrio-cloud-ghe" {
   resource_group_name = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.name
 }
 
+data "azurerm_dns_zone" "runner_zone" {
+  name = var.dns_zone_name
+}
+
 resource "azurerm_dns_ns_record" "liatrio_cloud_ghe_child_zone_ns" {
   provider            = azurerm.pay-as-you-go
   name                = "liatrio-cloud-ghe"

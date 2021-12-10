@@ -33,3 +33,15 @@ variable "dns_zone_resource_group" {
 variable "cert_manager_service_principal_secret_secret_name" {
   type = string
 }
+
+variable "cluster_name" {
+  type = string
+}
+
+variable "arm_tenant_id" {
+  type = string
+}
+
+variable "arm_subscription_id" {
+  type = string
+}
