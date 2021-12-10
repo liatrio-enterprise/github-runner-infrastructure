@@ -54,7 +54,7 @@ resource "azuread_service_principal_password" "cert_manager" {
 
 resource "azurerm_role_assignment" "cert_manager_dns_contributor" {
   principal_id         = azuread_service_principal.cert_manager.id
-  scope                = azurerm_dns_zone.liatrio-cloud-ghe.id
+  scope                = data.azurerm_dns_zone.runner_zone.id
   role_definition_name = "DNS Zone Contributor"
 }
 
