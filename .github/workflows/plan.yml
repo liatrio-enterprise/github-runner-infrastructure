@@ -1,11 +1,11 @@
-name: Terragrunt Apply
+name: Terragrunt Plan
 
 on:
   pull_request:
     branches: [ main ]
 
 jobs:
-  call-apply-workflow:
+  call-plan-workflow:
       uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan-azure.yml@main
       with:
         workingDirectory: ./live/sandbox

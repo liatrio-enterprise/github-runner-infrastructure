@@ -1,11 +1,11 @@
-name: Terragrunt Plan
+name: Terragrunt Apply
 
 on:
   push:
     branches: [ main, dns_zone_refactor ]
 
 jobs:
-  call-plan-workflow:
+  call-apply-workflow:
       uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-apply-azure.yml@terragrunt_apply_pipeline
       with:
         workingDirectory: ./live/sandbox
