@@ -1,7 +1,7 @@
 name: Terragrunt Plan
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
 
 jobs:

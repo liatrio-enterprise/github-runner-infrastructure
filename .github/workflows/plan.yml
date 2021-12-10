@@ -1,7 +1,7 @@
 name: Terragrunt Apply
 
 on:
-  push:
+  pull_request:
     branches: [ main ]
 
 jobs:
