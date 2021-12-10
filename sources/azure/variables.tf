@@ -22,11 +22,6 @@ variable "dns_subscription_id" {
   type = string
 }
 
-variable "arm_client_id" {
+variable "dns_zone_name" {
   type = string
-}
-
-variable "arm_client_secret" {
-  type      = string
-  sensitive = true
 }

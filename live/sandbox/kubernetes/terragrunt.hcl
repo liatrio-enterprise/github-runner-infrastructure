@@ -48,8 +48,8 @@ terraform {
 
     execute = [
       "az", "login", "--service-principal",
-      "--username", get_env("TF_VAR_arm_client_id"),
-      "--password", get_env("TF_VAR_arm_client_secret"),
+      "--username", get_env("ARM_CLIENT_ID"),
+      "--password", get_env("ARM_CLIENT_SECRET"),
       "--tenant", "${local.tenant_id}"
     ]
   }
