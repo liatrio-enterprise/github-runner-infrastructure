@@ -23,7 +23,7 @@ output "cert_manager_service_principal_id" {
 }
 
 output "dns_zone_name" {
-  value = azurerm_dns_zone.liatrio-cloud-ghe.name
+  value = data.azurerm_dns_zone.runner_zone.name
 }
 
 output "cert_manager_service_principal_secret_secret_name" {
