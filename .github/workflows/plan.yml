@@ -8,7 +8,9 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    container: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+    container:
+      image: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+      options: --user runner
 
     steps:
       - name: Checkout
@@ -27,7 +29,9 @@ jobs:
 
   plan:
     runs-on: ubuntu-latest
-    container: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+    container:
+      image: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+      options: --user runner
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
