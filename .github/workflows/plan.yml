@@ -2,7 +2,7 @@ name: Terragrunt Plan
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       - name: Terraform validate
         run: terraform validate
         env:
-          ARM_CLIENT_ID : ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           TF_VAR_arm_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           TF_VAR_arm_tenant_id: ${{ secrets.ARM_TENANT_ID }}
@@ -28,6 +28,7 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     container: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+    steps:
       - name: Git checkout
         uses: actions/checkout@v2
 
@@ -37,11 +38,11 @@ jobs:
           echo "##[set-output name=modified_terraform;]$(cat logs.txt | grep "No changes. Infrastructure is up-to-date." || true)"
         id: plan
         env:
-          ARM_CLIENT_ID : ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           TF_VAR_arm_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           TF_VAR_arm_tenant_id: ${{ secrets.ARM_TENANT_ID }}
-    
+
   pullRequestComment:
     name: Comment on PR
     if: github.event_name == 'pull_request'
