@@ -1,4 +1,4 @@
-name: Terragrunt Apply
+name: Terragrunt Apply Azure
 
 on:
   push:

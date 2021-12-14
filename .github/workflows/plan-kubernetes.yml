@@ -1,4 +1,4 @@
-name: Terragrunt Plan Azure
+name: Terragrunt Plan Kubernetes
 
 on:
   push:
