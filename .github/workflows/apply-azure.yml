@@ -2,7 +2,7 @@ name: Terragrunt Apply Azure
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, split_workflows ]
     paths:
       - live/sandbox/azure/**
       - sources/azure/**
