@@ -3,7 +3,7 @@ include {
 }
 
 locals {
-  common          = yamldecode(file(find_in_parent_folders("common-vars.yaml")))
+#  common          = yamldecode(file(find_in_parent_folders("common-vars.yaml")))
   tenant_id       = get_env("TF_VAR_arm_tenant_id")
   subscription_id = get_env("TF_VAR_arm_subscription_id")
 }
