@@ -14,8 +14,8 @@ resource "helm_release" "cert_manager" {
 }
 
 data "azurerm_key_vault_secret" "cert_manager_service_principal_secret" {
-  key_vault_id = var.key_vault_id
-  name         = var.cert_manager_service_principal_secret_secret_name
+  key_vault_id = azurerm_key_vault.runners.id
+  name         = azurerm_key_vault_secret.cert_manager_sp_secret.name
 }
 
 resource "kubernetes_secret" "cert_manager_service_principal" {
@@ -46,15 +46,15 @@ resource "kubernetes_manifest" "cert_manager_issuer_staging" {
           {
             dns01 = {
               azureDNS = {
-                clientID = var.cert_manager_service_principal_app_id
+                clientID = azuread_application.liatrio_cloud_ghe_cert_manager.application_id
                 clientSecretSecretRef = {
                   name = kubernetes_secret.cert_manager_service_principal.metadata[0].name
                   key  = "client-secret"
                 }
                 subscriptionID    = data.azurerm_client_config.current.subscription_id
                 tenantID          = data.azurerm_client_config.current.tenant_id
-                resourceGroupName = var.dns_zone_resource_group
-                hostedZoneName    = var.dns_zone_name
+                resourceGroupName = data.azurerm_dns_zone.runner_zone.resource_group_name
+                hostedZoneName    = data.azurerm_dns_zone.runner_zone.name
               }
             }
           }
@@ -82,15 +82,15 @@ resource "kubernetes_manifest" "cert_manager_issuer_production" {
           {
             dns01 = {
               azureDNS = {
-                clientID = var.cert_manager_service_principal_app_id
+                clientID = azuread_application.liatrio_cloud_ghe_cert_manager.application_id
                 clientSecretSecretRef = {
                   name = kubernetes_secret.cert_manager_service_principal.metadata[0].name
                   key  = "client-secret"
                 }
                 subscriptionID    = data.azurerm_client_config.current.subscription_id
                 tenantID          = data.azurerm_client_config.current.tenant_id
-                resourceGroupName = var.dns_zone_resource_group
-                hostedZoneName    = var.dns_zone_name
+                resourceGroupName = data.azurerm_dns_zone.runner_zone.resource_group_name
+                hostedZoneName    = data.azurerm_dns_zone.runner_zone.name
               }
             }
           }

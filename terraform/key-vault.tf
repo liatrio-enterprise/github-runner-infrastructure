@@ -3,7 +3,7 @@ resource "azurerm_key_vault" "runners" {
   location                  = "centralus"
   resource_group_name       = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.name
   sku_name                  = "standard"
-  tenant_id                 = data.azurerm_client_config.self.tenant_id
+  tenant_id                 = data.azurerm_client_config.current.tenant_id
   enable_rbac_authorization = true
 }
 

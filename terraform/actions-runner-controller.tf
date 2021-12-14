@@ -25,22 +25,22 @@ locals {
 }
 
 data "azurerm_key_vault_secret" "github_app_id" {
-  key_vault_id = var.key_vault_id
+  key_vault_id = azurerm_key_vault.runners.id
   name         = var.github_app_id_secret_name
 }
 
 data "azurerm_key_vault_secret" "github_app_installation_id" {
-  key_vault_id = var.key_vault_id
+  key_vault_id = azurerm_key_vault.runners.id
   name         = var.github_app_installation_id_secret_name
 }
 
 data "azurerm_key_vault_secret" "github_app_private_key" {
-  key_vault_id = var.key_vault_id
+  key_vault_id = azurerm_key_vault.runners.id
   name         = var.github_app_private_key_secret_name
 }
 
 data "azurerm_key_vault_secret" "github_webhook_secret" {
-  key_vault_id = var.key_vault_id
+  key_vault_id = azurerm_key_vault.runners.id
   name         = var.github_webhook_secret_secret_name
 }
 
