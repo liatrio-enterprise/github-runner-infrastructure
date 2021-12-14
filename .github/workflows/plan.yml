@@ -1,10 +1,12 @@
 name: Terragrunt Plan Azure
 
 on:
+  push:
+    branches:
+      - split_workflows
   pull_request:
     branches:
       - main
-      - split_workflows
     paths:
       - live/sandbox/azure/**
       - sources/azure/**
