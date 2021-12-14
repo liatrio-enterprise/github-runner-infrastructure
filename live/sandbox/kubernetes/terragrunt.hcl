@@ -2,11 +2,9 @@ include {
   path = find_in_parent_folders()
 }
 
-locals {
-  common          = yamldecode(file(find_in_parent_folders("common-vars.yaml")))
-  tenant_id       = get_env("TF_VAR_arm_tenant_id")
-  subscription_id = get_env("TF_VAR_arm_subscription_id")
-}
+#locals {
+#  common          = yamldecode(file(find_in_parent_folders("common-vars.yaml")))
+#}
 
 inputs = {
   github_app_id_secret_name                         = "aks-actions-runner-controller-github-app-id"

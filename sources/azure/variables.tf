@@ -18,10 +18,6 @@ variable "arm_subscription_id" {
   type = string
 }
 
-variable "dns_subscription_id" {
-  type = string
-}
-
 variable "dns_zone_name" {
   type = string
 }

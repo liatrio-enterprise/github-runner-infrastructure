@@ -8,12 +8,3 @@ provider "azurerm" {
 
   features {}
 }
-
-provider "azurerm" {
-  alias = "pay-as-you-go"
-
-  tenant_id       = var.arm_tenant_id
-  subscription_id = var.dns_subscription_id
-
-  features {}
-}
