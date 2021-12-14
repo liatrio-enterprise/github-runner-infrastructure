@@ -33,7 +33,7 @@ remote_state {
     resource_group_name  = "github-workshop"
     storage_account_name = "githubworkshop"
     container_name       = "tfstate"
-    key                  = "aks-runners/${path_relative_to_include()}/terraform.tfstate"
+    key                  = "aks-runners/live/sandbox/azure/terraform.tfstate"
     tenant_id            = local.tenant_id
     subscription_id      = local.subscription_id
   }
