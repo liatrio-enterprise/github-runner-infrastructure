@@ -3,9 +3,6 @@ name: Terragrunt Plan Kubernetes
 concurrency: kubernetes
 
 on:
-  push:
-    branches:
-      - split_workflows
   pull_request:
     branches:
       - main
