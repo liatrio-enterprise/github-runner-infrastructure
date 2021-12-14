@@ -7,7 +7,7 @@ on:
 
 jobs:
   plan:
-      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan-azure.yml@main
+      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan-azure.yml@misc_fixes
       with:
         workingDirectory: ./live/sandbox
       secrets:
