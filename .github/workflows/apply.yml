@@ -2,17 +2,22 @@ name: Terragrunt Apply
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   apply:
-      uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-apply-azure.yml@main
-      with:
-        workingDirectory: ./live/sandbox
-      secrets:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    container: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
 
+      - name: Terragrunt apply
+        run: yes | terragrunt run-all apply --terragrunt-working-dir ./live/sandbox
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          TF_VAR_arm_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          TF_VAR_arm_tenant_id: ${{ secrets.ARM_TENANT_ID }}
