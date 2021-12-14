@@ -1,9 +1,8 @@
 name: Terragrunt Plan Azure
 
+concurrency: azure
+
 on:
-  push:
-    branches:
-      - split_workflows
   pull_request:
     branches:
       - main

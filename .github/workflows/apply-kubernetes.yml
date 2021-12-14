@@ -1,5 +1,7 @@
 name: Terragrunt Apply Kubernetes
 
+concurrency: kubernetes
+
 on:
   push:
     branches: [ main ]

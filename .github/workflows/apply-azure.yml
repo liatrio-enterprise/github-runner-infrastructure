@@ -1,11 +1,13 @@
 name: Terragrunt Apply Azure
 
+concurrency: azure
+
 on:
   push:
-    branches: [ main, split_workflows ]
-#    paths:
-#      - live/sandbox/azure/**
-#      - sources/azure/**
+    branches: [ main ]
+    paths:
+      - live/sandbox/azure/**
+      - sources/azure/**
   workflow_dispatch:
 
 jobs:
