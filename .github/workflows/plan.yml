@@ -32,6 +32,7 @@ jobs:
           terragrunt plan --terragrunt-working-dir ./terragrunt | tee logs.txt
           echo "##[set-output name=modified_terraform;]$(cat logs.txt | grep "No changes. Infrastructure is up-to-date." || true)"
         id: plan
+        shell: bash
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
