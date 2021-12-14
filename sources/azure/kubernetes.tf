@@ -23,7 +23,6 @@ resource "azurerm_kubernetes_cluster" "runners" {
     vm_size                = "Standard_D2_v2"
     enable_host_encryption = false
     enable_node_public_ip  = false
-    vnet_subnet_id         = azurerm_subnet.aks_default_node_pool.id
   }
 
   identity {

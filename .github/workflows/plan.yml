@@ -5,9 +5,8 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-
 jobs:
-  call-plan-workflow:
+  plan:
       uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-plan-azure.yml@main
       with:
         workingDirectory: ./live/sandbox

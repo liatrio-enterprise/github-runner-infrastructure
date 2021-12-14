@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  call-apply-workflow:
+  apply:
       uses: liatrio-cloud/github-workflows/.github/workflows/terragrunt-apply-azure.yml@main
       with:
         workingDirectory: ./live/sandbox
