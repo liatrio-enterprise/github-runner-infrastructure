@@ -24,21 +24,6 @@ locals {
   ]
 }
 
-data "azurerm_key_vault_secret" "github_app_id" {
-  key_vault_id = var.key_vault_id
-  name         = var.github_app_id_secret_name
-}
-
-data "azurerm_key_vault_secret" "github_app_installation_id" {
-  key_vault_id = var.key_vault_id
-  name         = var.github_app_installation_id_secret_name
-}
-
-data "azurerm_key_vault_secret" "github_app_private_key" {
-  key_vault_id = var.key_vault_id
-  name         = var.github_app_private_key_secret_name
-}
-
 data "azurerm_key_vault_secret" "github_webhook_secret" {
   key_vault_id = var.key_vault_id
   name         = var.github_webhook_secret_secret_name
@@ -74,18 +59,8 @@ resource "helm_release" "actions_runner_controller" {
   }
 
   set_sensitive {
-    name  = "authSecret.github_app_id"
-    value = data.azurerm_key_vault_secret.github_app_id.value
-  }
-
-  set_sensitive {
-    name  = "authSecret.github_app_installation_id"
-    value = data.azurerm_key_vault_secret.github_app_installation_id.value
-  }
-
-  set_sensitive {
-    name  = "authSecret.github_app_private_key"
-    value = base64decode(data.azurerm_key_vault_secret.github_app_private_key.value)
+    name  = "authSecret.github_token"
+    value = var.github_pat
   }
 }
 
