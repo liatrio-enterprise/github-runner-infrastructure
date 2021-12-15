@@ -8,9 +8,6 @@ locals {
 }
 
 inputs = {
-  github_app_id_secret_name                         = "aks-actions-runner-controller-github-app-id"
-  github_app_installation_id_secret_name            = "aks-actions-runner-controller-github-app-installation-id"
-  github_app_private_key_secret_name                = "aks-actions-runner-controller-github-app-private-key"
   github_webhook_secret_secret_name                 = "aks-actions-runner-controller-github-webhook-secret"
   key_vault_id                                      = dependency.azure.outputs.key_vault_id
   cert_manager_service_principal_app_id             = dependency.azure.outputs.cert_manager_application_id
