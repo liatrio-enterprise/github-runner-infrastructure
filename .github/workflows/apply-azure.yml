@@ -1,0 +1,30 @@
+name: Terragrunt Apply Azure
+
+concurrency: azure
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - live/sandbox/azure/**
+      - sources/azure/**
+  workflow_dispatch:
+
+jobs:
+  apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+      options: --user root
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Terragrunt apply
+        run: terragrunt apply -auto-approve --terragrunt-working-dir ./live/sandbox/azure
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          TF_VAR_arm_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          TF_VAR_arm_tenant_id: ${{ secrets.ARM_TENANT_ID }}
