@@ -37,5 +37,5 @@ variable "arm_subscription_id" {
 variable "github_pat" {
   type        = string
   description = "PAT for setting up enterprise runners"
-  secret      = true
+  sensitive   = true
 }
