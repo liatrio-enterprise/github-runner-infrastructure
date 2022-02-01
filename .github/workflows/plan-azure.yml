@@ -27,7 +27,7 @@ jobs:
       - name: Terragrunt plan
         working-directory: ./live/sandbox/azure
         run: |
-          set -o pipefail
+          set -ox pipefail
           terragrunt validate
           terragrunt plan
           terragrunt plan -out tfplan.plan
