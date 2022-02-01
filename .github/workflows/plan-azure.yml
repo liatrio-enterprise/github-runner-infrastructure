@@ -25,7 +25,7 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terragrunt plan
-        working-directory: /live/sandbox/azure
+        working-directory: live/sandbox/azure
         run: |
           set -o pipefail
           terragrunt validate
