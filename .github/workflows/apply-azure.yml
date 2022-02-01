@@ -15,7 +15,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+      image: ghcr.io/liatrio-enterprise/runner-images/terraform-1.0:v1.1.2
       options: --user root
     steps:
       - name: Git checkout
@@ -26,5 +26,5 @@ jobs:
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          TF_VAR_arm_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          TF_VAR_arm_tenant_id: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}

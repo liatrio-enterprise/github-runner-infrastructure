@@ -1,7 +1,7 @@
 locals {
   terragrunt_module_name = replace(path_relative_to_include(), "/^.*/.*//", "")
-  tenant_id              = get_env("TF_VAR_arm_tenant_id")
-  subscription_id        = get_env("TF_VAR_arm_subscription_id")
+  tenant_id              = get_env("ARM_TENANT_ID")
+  subscription_id        = get_env("ARM_SUBSCRIPTION_ID")
 }
 
 remote_state {
@@ -17,14 +17,7 @@ remote_state {
     storage_account_name = "githubworkshop"
     container_name       = "tfstate"
     key                  = "aks-runners/${path_relative_to_include()}/terraform.tfstate"
-    tenant_id            = local.tenant_id
-    subscription_id      = local.subscription_id
   }
-}
-
-inputs = {
-  tenant_id       = local.tenant_id
-  subscription_id = local.subscription_id
 }
 
 terraform {

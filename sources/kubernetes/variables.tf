@@ -26,14 +26,6 @@ variable "cluster_name" {
   type = string
 }
 
-variable "arm_tenant_id" {
-  type = string
-}
-
-variable "arm_subscription_id" {
-  type = string
-}
-
 variable "github_pat" {
   type        = string
   description = "PAT for setting up enterprise runners"
