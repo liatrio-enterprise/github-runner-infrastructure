@@ -28,17 +28,17 @@ jobs:
         working-directory: ./live/sandbox/kubernetes
         run: |
           set -o pipefail
-          terraform validate
+          terragrunt validate
           terragrunt plan
-          terraform plan -out tfplan.plan
-          terraform show -no-color -json tfplan.plan > tfplan.json
+          terragrunt plan -out tfplan.plan
+          terragrunt show -no-color -json tfplan.plan > tfplan.json
         id: plan
         shell: bash
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          TF_VAR_arm_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          TF_VAR_arm_tenant_id: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           TF_VAR_github_pat: ${{ secrets.GHE_PAT }}
 
   pullRequestComment:
@@ -50,7 +50,5 @@ jobs:
     steps:
       - name: Pull Request Comment
         uses: liatrio/terraform-change-pr-commenter@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           json-file: ./live/sandbox/kubernetes/tfplan.json
