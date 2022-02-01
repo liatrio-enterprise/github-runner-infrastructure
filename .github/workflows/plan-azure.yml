@@ -25,11 +25,10 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terragrunt plan
-        working-directory: ./live/sandbox/azure
+        working-directory: /live/sandbox/azure
         run: |
           set -o pipefail
           terragrunt validate
-          terragrunt plan
           terragrunt plan -out tfplan.plan
           terragrunt show -no-color -json tfplan.plan > tfplan.json
         id: plan
@@ -40,14 +39,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-  pullRequestComment:
-    name: Comment on Pull Request
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    needs:
-      - plan
-    steps:
       - name: Pull Request Comment
         uses: liatrio/terraform-change-pr-commenter@main
         with:
-          json-file: ./live/sandbox/azure/tfplan.json
+          json-file: live/sandbox/azure/tfplan.json
