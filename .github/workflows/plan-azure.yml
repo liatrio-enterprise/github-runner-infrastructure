@@ -25,10 +25,11 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terragrunt plan
+        working-directory: ./live/sandbox/azure
         run: |
           set -o pipefail
           terraform validate
-          terragrunt plan --terragrunt-working-dir ./live/sandbox/azure 
+          terragrunt plan
           terraform plan -out tfplan.plan
           terraform show -no-color -json tfplan.plan > tfplan.json
         id: plan
@@ -51,4 +52,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          json-file: tf/tfplan.json
+          json-file: ./live/sandbox/azure/tfplan.json
