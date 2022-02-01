@@ -28,7 +28,7 @@ jobs:
         working-directory: ./live/sandbox/azure
         run: |
           set -o pipefail
-          terrarunt validate
+          terragrunt validate
           terragrunt plan
           terragrunt plan -out tfplan.plan
           terragrunt show -no-color -json tfplan.plan > tfplan.json
