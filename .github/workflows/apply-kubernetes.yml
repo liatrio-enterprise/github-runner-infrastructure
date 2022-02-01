@@ -15,7 +15,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2
+      image: ghcr.io/liatrio-enterprise/runner-images/terraform-1.0:v1.1.2
       options: --user root
     steps:
       - name: Git checkout
