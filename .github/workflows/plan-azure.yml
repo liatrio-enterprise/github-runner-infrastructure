@@ -27,7 +27,7 @@ jobs:
       - name: Terragrunt plan
         working-directory: ./live/sandbox/azure
         run: |
-          set -ox pipefail
+          set -o pipefail
           terragrunt validate
           terragrunt plan
           terragrunt plan -out tfplan.plan
@@ -39,7 +39,6 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          TF_LOG: DEBUG
 
   pullRequestComment:
     name: Comment on Pull Request
