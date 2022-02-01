@@ -2,21 +2,21 @@ locals {
   runners = [
     {
       name  = "nodejs-12"
-      image = "ghcr.io/liatrio-cloud/runner-images/nodejs-12:v1.1.1"
+      image = "ghcr.io/liatrio-enterprise/runner-images/nodejs-12:v1.1.1"
       labels = [
         "nodejs-12"
       ]
     },
     {
       name  = "dotnet-sdk-3.1"
-      image = "ghcr.io/liatrio-cloud/runner-images/dotnet-sdk-3.1:v1.1.0"
+      image = "ghcr.io/liatrio-enterprise/runner-images/dotnet-sdk-3.1:v1.1.0"
       labels = [
         "dotnet-sdk-3.1"
       ]
     },
     {
       name  = "terraform-1.0"
-      image = "ghcr.io/liatrio-cloud/runner-images/terraform-1.0:v1.1.2"
+      image = "ghcr.io/liatrio-enterprise/runner-images/terraform-1.0:v1.1.2"
       labels = [
         "terraform-1.0"
       ]
