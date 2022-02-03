@@ -1,0 +1,46 @@
+name: Terragrunt Plan Kubernetes
+
+concurrency: kubernetes
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - live/sandbox/kubernetes/**
+      - sources/kubernetes/**
+  workflow_dispatch:
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/liatrio-enterprise/runner-images/terraform-1.0:v1.1.2
+      options: --user root
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terragrunt plan
+        working-directory: ./live/sandbox/kubernetes
+        run: |
+          set -o pipefail
+          terragrunt validate
+          terragrunt plan -out tfplan.plan
+          terragrunt show -no-color -json tfplan.plan > tfplan.json
+        id: plan
+        shell: bash
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_github_pat: ${{ secrets.GHE_PAT }}
+
+      - name: Pull Request Comment
+        uses: liatrio/terraform-change-pr-commenter@main
+        with:
+          json-file: live/sandbox/kubernetes/tfplan.json

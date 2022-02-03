@@ -1,0 +1,31 @@
+name: Terragrunt Apply Kubernetes
+
+concurrency: kubernetes
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - live/sandbox/kubernetes/**
+      - sources/kubernetes/**
+  workflow_dispatch:
+
+jobs:
+  apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/liatrio-enterprise/runner-images/terraform-1.0:v1.1.2
+      options: --user root
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Terragrunt apply
+        run: terragrunt apply -auto-approve --terragrunt-working-dir ./live/sandbox/kubernetes
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TF_VAR_github_pat: ${{ secrets.GHE_PAT }}

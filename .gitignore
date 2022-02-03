@@ -1,0 +1,11 @@
+.terragrunt-cache/
+.terraform/
+tf.plan
+terraform.tfstate*
+local/*local*.tfvars
+local*.tfvars
+.test-data
+.DS_Store
+.idea
+.vscode
+.editorconfig
