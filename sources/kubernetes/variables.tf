@@ -2,10 +2,6 @@ variable "key_vault_id" {
   type = string
 }
 
-variable "github_webhook_secret_secret_name" {
-  type = string
-}
-
 variable "cert_manager_service_principal_app_id" {
   type = string
 }
@@ -40,4 +36,9 @@ variable "cname_target_value" {
 variable "webhook_domain" {
   type        = string
   description = "DNS record to create as CNAME"
+}
+
+variable "environment_label" {
+  type        = string
+  description = "Label to add to runner config"
 }
