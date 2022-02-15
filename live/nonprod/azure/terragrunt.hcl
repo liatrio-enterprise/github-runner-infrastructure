@@ -8,6 +8,7 @@ locals {
 }
 
 inputs = {
-  admin_group_object_id                  = "660a8f6b-7692-495a-bfa0-859e2ea6b6c9"
-  dns_zone_name                          = "liatrio-cloud-runners.az.liatr.io"
+  dns_zone_name      = "nonprod.az.liatr.io"
+  cname_target_value = "ghe-runner-nonprod-webhook"
+  webhook_domain     = "github-runner-webhook"
 }

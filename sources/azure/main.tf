@@ -11,14 +11,15 @@ terraform {
   }
 }
 
-data "azurerm_client_config" "self" {
-}
+data "azurerm_client_config" "self" {}
+
+data "azurerm_subscription" "self" {}
 
 data "azuread_group" "admin_group" {
-  object_id = var.admin_group_object_id
+  display_name = "${data.azurerm_subscription.self.display_name} Owners"
 }
 
 resource "azurerm_resource_group" "liatrio_cloud_ghe_actions_runners" {
-  name     = "liatrio-cloud-ghe-actions-runners"
+  name     = "ghe-actions-runners-infra"
   location = "centralus"
 }
