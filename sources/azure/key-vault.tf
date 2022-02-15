@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "runners" {
-  name                      = "liatriocloudgherunners"
+  name                      = "gherunners${data.azurerm_subscription.self.display_name}"
   location                  = "centralus"
   resource_group_name       = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.name
   sku_name                  = "standard"
@@ -8,7 +8,7 @@ resource "azurerm_key_vault" "runners" {
 }
 
 resource "azurerm_role_assignment" "admin_key_vault_owners" {
-  principal_id         = var.admin_group_object_id
+  principal_id         = data.azuread_group.admin_group.id
   scope                = azurerm_key_vault.runners.id
   role_definition_name = "Key Vault Administrator"
 }
