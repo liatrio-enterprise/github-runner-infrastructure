@@ -38,7 +38,7 @@ resource "azurerm_kubernetes_cluster" "runners" {
 locals {
   # This gives the owners of the subscription as well as the SP running this automation owner of the cert manager application
   azuread_application_owners = concat(
-    data.azurerm_client_config.self.id,
+    [data.azurerm_client_config.self.object_id],
     data.azuread_group.admin_group.members
   )
 }
