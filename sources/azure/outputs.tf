@@ -29,3 +29,11 @@ output "dns_zone_name" {
 output "cert_manager_service_principal_secret_secret_name" {
   value = azurerm_key_vault_secret.cert_manager_sp_secret.name
 }
+
+output "webhook_ingress_name" {
+  value = var.dns_zone_name
+}
+
+output "webhook_domain" {
+  value = var.webhook_domain
+}

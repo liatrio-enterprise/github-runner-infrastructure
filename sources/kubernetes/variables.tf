@@ -31,3 +31,13 @@ variable "github_pat" {
   description = "PAT for setting up enterprise runners"
   sensitive   = true
 }
+
+variable "cname_target_value" {
+  type = string
+  description = "DNS record to create CNAME for"
+}
+
+variable "webhook_domain" {
+  type = string
+  description = "DNS record to create as CNAME"
+}

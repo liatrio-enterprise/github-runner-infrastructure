@@ -117,7 +117,7 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
     apiVersion = "networking.k8s.io/v1"
     kind       = "Ingress"
     metadata = {
-      name      = "github-webhook"
+      name      = var.webhook_domain
       namespace = helm_release.actions_runner_controller.namespace
       annotations = {
         "cert-manager.io/cluster-issuer" : kubernetes_manifest.cert_manager_issuer_production.manifest.metadata.name
@@ -126,7 +126,7 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
     spec = {
       rules = [
         {
-          host = "github-webhook.liatrio-cloud-ghe.az.liatr.io"
+          host = "${var.webhook_domain}.${var.dns_zone_name}"
           http = {
             paths = [
               {
@@ -148,9 +148,9 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
       tls = [
         {
           hosts = [
-            "github-webhook.liatrio-cloud-ghe.az.liatr.io"
+            "${var.webhook_domain}.${var.dns_zone_name}"
           ]
-          secretName = "github-webhook-tls"
+          secretName = "github-runner-webhook-tls"
         }
       ]
       ingressClassName = "nginx"

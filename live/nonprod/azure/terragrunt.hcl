@@ -8,5 +8,7 @@ locals {
 }
 
 inputs = {
-  dns_zone_name         = "nonprod.az.liatr.io"
+  dns_zone_name      = "nonprod.az.liatr.io"
+  cname_target_value = "ghe-runner-nonprod-webhook"
+  webhook_domain     = "github-runner-webhook"
 }
