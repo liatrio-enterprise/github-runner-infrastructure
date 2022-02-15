@@ -12,7 +12,7 @@ resource "azurerm_key_vault" "runners" {
 }
 
 resource "azurerm_role_assignment" "admin_key_vault_owners" {
-  principal_id         = data.azuread_group.admin_group.id
+  principal_id         = data.azurerm_client_config.self.object_id
   scope                = azurerm_key_vault.runners.id
   role_definition_name = "Key Vault Administrator"
 }
