@@ -15,8 +15,8 @@ inputs = {
   dns_zone_resource_group                           = dependency.azure.outputs.resource_group
   cert_manager_service_principal_secret_secret_name = dependency.azure.outputs.cert_manager_service_principal_secret_secret_name
   cluster_name                                      = dependency.azure.outputs.aks_cluster_name
-  webhook_domain                                    = dependency.azure.outputs.aks_webhook_domain
-  cname_target_value                                = dependency.azure.outputs.aks_cname_target_value
+  webhook_domain                                    = dependency.azure.outputs.webhook_domain
+  cname_target_value                                = dependency.azure.outputs.cname_target_value
 }
 
 dependency "azure" {
