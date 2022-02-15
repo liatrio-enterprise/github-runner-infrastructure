@@ -77,6 +77,7 @@ resource "kubernetes_manifest" "runner_deployments" {
     spec = {
       template = {
         spec = {
+          group         = var.environment_label
           enterprise    = "liatrio-partnerdemo"
           dockerEnabled = false
           ephemeral     = true
