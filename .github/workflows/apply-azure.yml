@@ -6,7 +6,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - live/sandbox/azure/**
+      - live/**/azure/**
       - sources/azure/**
   workflow_dispatch:
 
@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Terragrunt apply
-        run: terragrunt apply -auto-approve --terragrunt-working-dir ./live/sandbox/azure
+        run: terragrunt apply -auto-approve --terragrunt-working-dir ./live/nonprod/azure
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
