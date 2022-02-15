@@ -4,7 +4,7 @@ variable "dns_zone_name" {
 }
 
 variable "dns_zone_resource_group" {
-  type = string
+  type        = string
   description = "Resource group holding the base DNS zone"
 }
 
