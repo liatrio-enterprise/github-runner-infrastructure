@@ -21,7 +21,7 @@ remote_state {
 }
 
 terraform {
-  source = "${path_relative_from_include()}/sources//${local.terragrunt_module_name}"
+  source = "${path_relative_from_include()}/../../sources//${local.terragrunt_module_name}"
 }
 
 terraform_version_constraint  = ">= 1.0"
