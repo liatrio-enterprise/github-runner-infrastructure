@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - live/sandbox/azure/**
+      - live/**/azure/**
       - sources/azure/**
   workflow_dispatch:
 

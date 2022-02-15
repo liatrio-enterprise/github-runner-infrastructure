@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - live/sandbox/kubernetes/**
+      - live/**/kubernetes/**
       - sources/kubernetes/**
   workflow_dispatch:
 
