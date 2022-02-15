@@ -24,9 +24,10 @@ locals {
   ]
 }
 
-data "azurerm_key_vault_secret" "github_webhook_secret" {
-  key_vault_id = var.key_vault_id
-  name         = var.github_webhook_secret_secret_name
+resource "random_uuid" "shared_secret" {
+  keepers = {
+    cluster_name = var.cluster_name
+  }
 }
 
 resource "helm_release" "actions_runner_controller" {
@@ -55,7 +56,7 @@ resource "helm_release" "actions_runner_controller" {
 
   set_sensitive {
     name  = "githubWebhookServer.secret.github_webhook_secret_token"
-    value = data.azurerm_key_vault_secret.github_webhook_secret.value
+    value = random_uuid.shared_secret.result
   }
 
   set_sensitive {
@@ -64,96 +65,96 @@ resource "helm_release" "actions_runner_controller" {
   }
 }
 
-resource "kubernetes_manifest" "runner_deployments" {
-  for_each = { for r in local.runners : r.name => r }
-  manifest = {
-    apiVersion = "actions.summerwind.dev/v1alpha1"
-    kind       = "RunnerDeployment"
-    metadata = {
-      name      = "liatrio-cloud-${each.value.name}"
-      namespace = helm_release.actions_runner_controller.namespace
-    }
-    spec = {
-      template = {
-        spec = {
-          enterprise    = "liatrio-partnerdemo"
-          dockerEnabled = false
-          ephemeral     = true
-          labels        = each.value.labels
-          image         = each.value.image
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_manifest" "runner_autoscalers" {
-  for_each = { for r in local.runners : r.name => r }
-  manifest = {
-    apiVersion = "actions.summerwind.dev/v1alpha1"
-    kind       = "HorizontalRunnerAutoscaler"
-    metadata = {
-      name      = "liatrio-cloud-autoscaler-${each.value.name}"
-      namespace = helm_release.actions_runner_controller.namespace
-    }
-    spec = {
-      minReplicas = 1
-      maxReplicas = 5
-      scaleTargetRef = {
-        name = kubernetes_manifest.runner_deployments[each.key].manifest.metadata.name
-      }
-      scaleUpTriggers = [
-        {
-          githubEvent = {}
-          duration    = "10m"
-        }
-      ]
-    }
-  }
-}
-
-resource "kubernetes_manifest" "github_webhook_ingress" {
-  manifest = {
-    apiVersion = "networking.k8s.io/v1"
-    kind       = "Ingress"
-    metadata = {
-      name      = var.webhook_domain
-      namespace = helm_release.actions_runner_controller.namespace
-      annotations = {
-        "cert-manager.io/cluster-issuer" : kubernetes_manifest.cert_manager_issuer_production.manifest.metadata.name
-      }
-    }
-    spec = {
-      rules = [
-        {
-          host = "${var.webhook_domain}.${var.dns_zone_name}"
-          http = {
-            paths = [
-              {
-                path     = "/"
-                pathType = "Prefix"
-                backend = {
-                  service = {
-                    name = "actions-runner-controller-github-webhook-server"
-                    port = {
-                      name = "http"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      ]
-      tls = [
-        {
-          hosts = [
-            "${var.webhook_domain}.${var.dns_zone_name}"
-          ]
-          secretName = "github-runner-webhook-tls"
-        }
-      ]
-      ingressClassName = "nginx"
-    }
-  }
-}
+#resource "kubernetes_manifest" "runner_deployments" {
+#  for_each = { for r in local.runners : r.name => r }
+#  manifest = {
+#    apiVersion = "actions.summerwind.dev/v1alpha1"
+#    kind       = "RunnerDeployment"
+#    metadata = {
+#      name      = "liatrio-cloud-${each.value.name}"
+#      namespace = helm_release.actions_runner_controller.namespace
+#    }
+#    spec = {
+#      template = {
+#        spec = {
+#          enterprise    = "liatrio-partnerdemo"
+#          dockerEnabled = false
+#          ephemeral     = true
+#          labels        = each.value.labels
+#          image         = each.value.image
+#        }
+#      }
+#    }
+#  }
+#}
+#
+#resource "kubernetes_manifest" "runner_autoscalers" {
+#  for_each = { for r in local.runners : r.name => r }
+#  manifest = {
+#    apiVersion = "actions.summerwind.dev/v1alpha1"
+#    kind       = "HorizontalRunnerAutoscaler"
+#    metadata = {
+#      name      = "liatrio-cloud-autoscaler-${each.value.name}"
+#      namespace = helm_release.actions_runner_controller.namespace
+#    }
+#    spec = {
+#      minReplicas = 1
+#      maxReplicas = 5
+#      scaleTargetRef = {
+#        name = kubernetes_manifest.runner_deployments[each.key].manifest.metadata.name
+#      }
+#      scaleUpTriggers = [
+#        {
+#          githubEvent = {}
+#          duration    = "10m"
+#        }
+#      ]
+#    }
+#  }
+#}
+#
+#resource "kubernetes_manifest" "github_webhook_ingress" {
+#  manifest = {
+#    apiVersion = "networking.k8s.io/v1"
+#    kind       = "Ingress"
+#    metadata = {
+#      name      = var.webhook_domain
+#      namespace = helm_release.actions_runner_controller.namespace
+#      annotations = {
+#        "cert-manager.io/cluster-issuer" : kubernetes_manifest.cert_manager_issuer_production.manifest.metadata.name
+#      }
+#    }
+#    spec = {
+#      rules = [
+#        {
+#          host = "${var.webhook_domain}.${var.dns_zone_name}"
+#          http = {
+#            paths = [
+#              {
+#                path     = "/"
+#                pathType = "Prefix"
+#                backend = {
+#                  service = {
+#                    name = "actions-runner-controller-github-webhook-server"
+#                    port = {
+#                      name = "http"
+#                    }
+#                  }
+#                }
+#              }
+#            ]
+#          }
+#        }
+#      ]
+#      tls = [
+#        {
+#          hosts = [
+#            "${var.webhook_domain}.${var.dns_zone_name}"
+#          ]
+#          secretName = "github-runner-webhook-tls"
+#        }
+#      ]
+#      ingressClassName = "nginx"
+#    }
+#  }
+#}
