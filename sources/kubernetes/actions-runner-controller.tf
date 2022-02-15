@@ -80,7 +80,7 @@ resource "kubernetes_manifest" "runner_deployments" {
           enterprise    = "liatrio-partnerdemo"
           dockerEnabled = false
           ephemeral     = true
-          labels        = each.value.labels
+          labels        = concat(each.value.labels, [var.environment_label])
           image         = each.value.image
         }
       }
