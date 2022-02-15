@@ -33,11 +33,11 @@ variable "github_pat" {
 }
 
 variable "cname_target_value" {
-  type = string
+  type        = string
   description = "DNS record to create CNAME for"
 }
 
 variable "webhook_domain" {
-  type = string
+  type        = string
   description = "DNS record to create as CNAME"
 }
