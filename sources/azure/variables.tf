@@ -3,6 +3,11 @@ variable "dns_zone_name" {
   description = "Existing DNS zone to create CNAME record in"
 }
 
+variable "dns_zone_resource_group" {
+  type        = string
+  description = "Resource group holding the base DNS zone"
+}
+
 variable "cname_target_value" {
   type        = string
   description = "DNS record to create CNAME for"
