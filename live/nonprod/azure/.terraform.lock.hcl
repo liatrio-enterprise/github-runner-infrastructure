@@ -2,8 +2,8 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/hashicorp/azuread" {
-  version     = "2.7.0"
-  constraints = "~> 2.7"
+  version     = "2.18.0"
+  constraints = "~> 2.18"
   hashes = [
     "h1:Scb3uItags0sDUUX2KxyVqoVPwzakjqZid2UfFuZnCY=",
     "h1:WQSu2lOtnMxnYFC7c2m899D1W6yQl3pJ2Ijx+HD7dis=",
@@ -22,8 +22,8 @@ provider "registry.terraform.io/hashicorp/azuread" {
 }
 
 provider "registry.terraform.io/hashicorp/azurerm" {
-  version     = "2.82.0"
-  constraints = "~> 2.82"
+  version     = "2.96.0"
+  constraints = "~> 2.96"
   hashes = [
     "h1:e4X0Crijkhyy4k7SGQPUjq/h1+5r+JyIH1N8mE7mqJs=",
     "h1:ohS2e7dLB2Z+DxZ2+YSA4jeGvaDBeSGr6GyR5WG6Lwk=",
