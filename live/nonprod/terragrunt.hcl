@@ -13,15 +13,15 @@ remote_state {
   }
 
   config = {
-    resource_group_name  = "github-workshop"
-    storage_account_name = "githubworkshop"
+    resource_group_name  = "ghe-infra"
+    storage_account_name = "ghenonprod"
     container_name       = "tfstate"
     key                  = "aks-runners/${path_relative_to_include()}/terraform.tfstate"
   }
 }
 
 terraform {
-  source = "${path_relative_from_include()}/sources//${local.terragrunt_module_name}"
+  source = "${path_relative_from_include()}/../../sources//${local.terragrunt_module_name}"
 }
 
 terraform_version_constraint  = ">= 1.0"

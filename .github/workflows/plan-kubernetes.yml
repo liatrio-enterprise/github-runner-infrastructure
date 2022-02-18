@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - live/sandbox/kubernetes/**
+      - live/**/kubernetes/**
       - sources/kubernetes/**
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terragrunt plan
-        working-directory: ./live/sandbox/kubernetes
+        working-directory: ./live/nonprod/kubernetes
         run: |
           set -o pipefail
           terragrunt validate
@@ -43,4 +43,4 @@ jobs:
       - name: Pull Request Comment
         uses: liatrio/terraform-change-pr-commenter@main
         with:
-          json-file: live/sandbox/kubernetes/tfplan.json
+          json-file: live/nonprod/kubernetes/tfplan.json
