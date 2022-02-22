@@ -42,4 +42,4 @@ jobs:
       - name: Pull Request Comment
         uses: liatrio/terraform-change-pr-commenter@main
         with:
-          json-file: live/nonprod/azure/tfplan.json
+          json-file: live/prod/azure/tfplan.json
