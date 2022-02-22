@@ -3,7 +3,7 @@ resource "azurerm_kubernetes_cluster" "runners" {
   location            = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.location
   resource_group_name = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.name
 
-  kubernetes_version = "1.21.2"
+  kubernetes_version = "1.22.6"
 
   dns_prefix = "runners"
 
