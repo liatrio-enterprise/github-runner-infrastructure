@@ -1,5 +1,5 @@
 resource "azurerm_kubernetes_cluster" "runners" {
-  name                = "runners-aks"
+  name                = "ghe-runners-${data.azurerm_subscription.self.display_name}"
   location            = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.location
   resource_group_name = azurerm_resource_group.liatrio_cloud_ghe_actions_runners.name
 
@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "runners" {
     azure_active_directory {
       managed                = true
       azure_rbac_enabled     = true
-      admin_group_object_ids = [var.admin_group_object_id]
+      admin_group_object_ids = [data.azuread_group.admin_group.id]
     }
   }
 
@@ -35,16 +35,23 @@ resource "azurerm_kubernetes_cluster" "runners" {
   }
 }
 
+locals {
+  # This gives the owners of the subscription as well as the SP running this automation owner of the cert manager application
+  azuread_application_owners = concat(
+    [data.azurerm_client_config.self.object_id],
+    data.azuread_group.admin_group.members
+  )
+}
+
 resource "azuread_application" "liatrio_cloud_ghe_cert_manager" {
-  display_name = "liatrio-cloud-ghe-cert-manager"
-  owners       = data.azuread_group.admin_group.members
+  display_name = "Cert Manager for GHE runners in ${data.azurerm_subscription.self.display_name}"
+  owners       = local.azuread_application_owners
 }
 
 resource "azuread_service_principal" "cert_manager" {
   application_id               = azuread_application.liatrio_cloud_ghe_cert_manager.application_id
   app_role_assignment_required = false
   owners                       = data.azuread_group.admin_group.members
-  description                  = "cert manager aks sp for liatrio-cloud github enterprise"
 }
 
 resource "azuread_service_principal_password" "cert_manager" {

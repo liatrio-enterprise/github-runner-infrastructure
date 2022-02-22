@@ -6,7 +6,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - live/sandbox/kubernetes/**
+      - live/**/kubernetes/**
       - sources/kubernetes/**
   workflow_dispatch:
 
@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Terragrunt apply
-        run: terragrunt apply -auto-approve --terragrunt-working-dir ./live/sandbox/kubernetes
+        run: terragrunt apply -auto-approve --terragrunt-working-dir ./live/prod/kubernetes
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}

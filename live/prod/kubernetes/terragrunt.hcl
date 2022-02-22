@@ -8,13 +8,15 @@ locals {
 }
 
 inputs = {
-  github_webhook_secret_secret_name                 = "aks-actions-runner-controller-github-webhook-secret"
+  environment_label                                 = "prod"
   key_vault_id                                      = dependency.azure.outputs.key_vault_id
   cert_manager_service_principal_app_id             = dependency.azure.outputs.cert_manager_application_id
   dns_zone_name                                     = dependency.azure.outputs.dns_zone_name
   dns_zone_resource_group                           = dependency.azure.outputs.resource_group
   cert_manager_service_principal_secret_secret_name = dependency.azure.outputs.cert_manager_service_principal_secret_secret_name
   cluster_name                                      = dependency.azure.outputs.aks_cluster_name
+  webhook_domain                                    = dependency.azure.outputs.webhook_domain
+  cname_target_value                                = dependency.azure.outputs.cname_target_value
 }
 
 dependency "azure" {

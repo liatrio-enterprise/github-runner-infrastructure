@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - live/sandbox/azure/**
+      - live/**/azure/**
       - sources/azure/**
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terragrunt plan
-        working-directory: live/sandbox/azure
+        working-directory: live/prod/azure
         run: |
           set -o pipefail
           terragrunt validate
@@ -42,4 +42,4 @@ jobs:
       - name: Pull Request Comment
         uses: liatrio/terraform-change-pr-commenter@main
         with:
-          json-file: live/sandbox/azure/tfplan.json
+          json-file: live/prod/azure/tfplan.json

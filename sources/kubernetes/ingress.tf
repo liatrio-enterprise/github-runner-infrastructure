@@ -9,7 +9,7 @@ resource "helm_release" "ingress_nginx" {
 
   set {
     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-dns-label-name"
-    value = "liatrio-cloud-actions-runner-controller"
+    value = var.cname_target_value
     type  = "string"
   }
 }

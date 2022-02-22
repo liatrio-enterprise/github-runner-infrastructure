@@ -24,9 +24,10 @@ locals {
   ]
 }
 
-data "azurerm_key_vault_secret" "github_webhook_secret" {
-  key_vault_id = var.key_vault_id
-  name         = var.github_webhook_secret_secret_name
+resource "random_uuid" "shared_secret" {
+  keepers = {
+    cluster_name = var.cluster_name
+  }
 }
 
 resource "helm_release" "actions_runner_controller" {
@@ -55,7 +56,7 @@ resource "helm_release" "actions_runner_controller" {
 
   set_sensitive {
     name  = "githubWebhookServer.secret.github_webhook_secret_token"
-    value = data.azurerm_key_vault_secret.github_webhook_secret.value
+    value = random_uuid.shared_secret.result
   }
 
   set_sensitive {
@@ -76,10 +77,11 @@ resource "kubernetes_manifest" "runner_deployments" {
     spec = {
       template = {
         spec = {
+          group         = var.environment_label
           enterprise    = "liatrio-partnerdemo"
           dockerEnabled = false
           ephemeral     = true
-          labels        = each.value.labels
+          labels        = concat(each.value.labels, [var.environment_label])
           image         = each.value.image
         }
       }
@@ -117,7 +119,7 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
     apiVersion = "networking.k8s.io/v1"
     kind       = "Ingress"
     metadata = {
-      name      = "github-webhook"
+      name      = var.webhook_domain
       namespace = helm_release.actions_runner_controller.namespace
       annotations = {
         "cert-manager.io/cluster-issuer" : kubernetes_manifest.cert_manager_issuer_production.manifest.metadata.name
@@ -126,7 +128,7 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
     spec = {
       rules = [
         {
-          host = "github-webhook.liatrio-cloud-ghe.az.liatr.io"
+          host = "${var.webhook_domain}.${var.dns_zone_name}"
           http = {
             paths = [
               {
@@ -148,9 +150,9 @@ resource "kubernetes_manifest" "github_webhook_ingress" {
       tls = [
         {
           hosts = [
-            "github-webhook.liatrio-cloud-ghe.az.liatr.io"
+            "${var.webhook_domain}.${var.dns_zone_name}"
           ]
-          secretName = "github-webhook-tls"
+          secretName = "github-runner-webhook-tls"
         }
       ]
       ingressClassName = "nginx"
