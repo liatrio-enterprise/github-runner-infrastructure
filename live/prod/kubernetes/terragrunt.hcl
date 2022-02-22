@@ -8,7 +8,7 @@ locals {
 }
 
 inputs = {
-  environment_label                                 = "production"
+  environment_label                                 = "prod"
   key_vault_id                                      = dependency.azure.outputs.key_vault_id
   cert_manager_service_principal_app_id             = dependency.azure.outputs.cert_manager_application_id
   dns_zone_name                                     = dependency.azure.outputs.dns_zone_name
