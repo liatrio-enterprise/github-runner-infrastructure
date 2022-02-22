@@ -25,7 +25,7 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terragrunt plan
-        working-directory: ./live/nonprod/kubernetes
+        working-directory: ./live/prod/kubernetes
         run: |
           set -o pipefail
           terragrunt validate
